@@ -11,7 +11,7 @@ while jin.hitpoint >0 and khotun.hitpoint >0
   $playerAtt.attack($playerDef)
   puts $playerDef
   if $playerDef.die? 
-    puts "#{$playerAtt.name} Wins"
+    puts "#{$playerAtt.name} Wins" #none method "Untuk umum diketahui dan state tersebut hanya di panggil tidak ada yang dirubah sebelumnya tidak masalah langsung dan memakai reader bawaan ruby"(Kak Fahmi)
   end
   $playerAtt = $playerDef
   $playerDef = $temporary

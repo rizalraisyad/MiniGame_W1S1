@@ -27,12 +27,12 @@ class Person
 
 # Imagine that attacker always have 100% chance rate, so if deflect% is 100, it means 1:1 from defend and att % so in this code rand will be 0-100 : 0-100
   def miss? 
-    if ( rand(0..@deflect_percentage) >= rand(0..100)) 
+    $rangeMax = 100 - @deflect_percentage 
+    if ( rand(0..@deflect_percentage) >= rand(1..$rangeMax)) # Kemungkinan range kemampuan hit nya akan dikurangi deflect percentage
       true
     else
       false
     end
-    
   end
 
   def die?
