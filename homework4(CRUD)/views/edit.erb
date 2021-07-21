@@ -1,0 +1,18 @@
+<h1>Edit</h1>
+
+<form method="post" action ="/item/<%= detail[0].id%>">
+  <input type="hidden" name="_method" value="put" />
+  <input name="name" type ="text" placeholder="Item name" value="<%= detail[0].name%>">
+  <input name="price" type ="number" placeholder="Item price" value=<%= detail[0].price%>>
+  <select name="category">
+  <% category.each do |category| %>
+    <option value=<%= category.id%> 
+    <%= if detail[0].category.id == category.id
+        "selected = 'selected'"
+        end
+    %>
+    ><%= category.name%></option>
+  <% end %>
+  </select>
+  <button type ="submit">Update item</button>
+</form>
