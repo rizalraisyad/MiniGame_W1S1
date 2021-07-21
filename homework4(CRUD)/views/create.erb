@@ -5,11 +5,11 @@
   <form method="POST" action ="/items/create">
     <div class="mb-3">
       <label for="name" class="form-label">Items Name: </label>
-      <input name="name" class="form-control" type ="text" placeholder="Item name">
+      <input name="name" class="form-control" type ="text" placeholder="Item name" required>
     </div>
     <div class="mb-3">
       <label for="price" class="form-label">Price: </label>
-      <input name="price" class="form-control" type ="number" placeholder="Item price">
+      <input name="price" class="form-control" type ="number" placeholder="Item price" required>
     </div> 
     <select class="form-select" name="category" >
     <% category.each do |category| %>
