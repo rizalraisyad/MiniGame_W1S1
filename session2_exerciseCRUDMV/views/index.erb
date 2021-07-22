@@ -1,0 +1,40 @@
+
+<%= erb :header %>
+<div class ="container">
+  <h1 class="text-center">Items List</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">No</th>
+        <th scope="col" class="text-center">Name</th>
+        <th scope="col" class="text-center">Price</th>
+        <th scope="col" class="text-center">Category</th>
+        <th scope="col" colspan="3" class="text-center">Action</th>
+      </tr>
+    </thead>
+    <% 
+    i = 1;
+    items.each do |item| %>
+    <tbody>
+        <tr>
+        <th class="text-center"><%= i %> </th>
+        <th class="text-center"><%= item.name %> </th>
+        <th class="text-center"><%= item.price %></th>
+        <th class="text-center"><%= item.category.name%></th>
+        <th class="text-center"><a class="btn btn-primary" href="/items/detail/<%= item.id%>">Show</a></th>
+        <th class="text-center"><a class="btn btn-primary" href="/items/edit/<%= item.id%>">Edit</a></th>
+        <th class="text-center">
+          <form method="post" action ="/item/<%= item.id%>">
+          <input type="hidden" name="_method" value="delete" />
+          <button class="btn btn-danger" type ="submit">Delete</button>
+          </form>
+        </th>
+      </tr>     
+    </tbody>            
+    <% i +=1
+    end %>
+
+  </table>
+  <a class="btn btn-primary" href= "/items/new"> New item </a>
+</div>
+<%= erb :footer %>
