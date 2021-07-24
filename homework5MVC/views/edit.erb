@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOOD OMS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+  <h1 class="text-center">Edit</h1>
+
+  <form method="post" action ="/item/<%= item_detail.id%> " >
+    <input type="hidden" name="_method" value="put" />
+    <div class="mb-3">
+      <label for="name" class="form-label">Items Name: </label>
+      <input name="name" class="form-control" type ="text" placeholder="Item name" value="<%= item_detail.name%>">
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Price: </label>
+      <input name="price" class="form-control" type ="number" placeholder="Item price" value=<%= item_detail.price%>>
+    </div>
+    <div class="mb-3">  
+    <label for="category" class="form-label">Category Name: </label>
+      <select class="form-select" name="category">
+      <% category.each do |category| %>
+        <option value=<%= category.id%> 
+        <%= if item_detail.category.id == category.id
+            "selected = 'selected'"
+            end
+        %>
+        ><%= category.name%></option>
+      <% end %>
+      </select>
+    </div>
+    <button class="btn btn-primary" type ="submit">Update item</button>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOOD OMS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+<div class ="container">
+  <h1 class="text-center">Items Details</h1>
+    <div><h4>Item Name: <%= item_detail.name%></h4></div>
+    <div><h4>Item Price: <%= item_detail.price%></h4></div> 
+    <div><h4>Item Category: <%= item_detail.category.name%></h4></div>  
+  <a class="btn btn-primary" href= "/"> Back </a>
+</div>
+</body>
+</html>
