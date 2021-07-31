@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOOD OMS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+<div class ="container">
+  <h1 class="text-center">Items List</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">No</th>
+        <th scope="col" class="text-center">Name</th>
+        <th scope="col" class="text-center">Price</th>
+        <th scope="col" class="text-center">Category</th>
+        <th scope="col" colspan="3" class="text-center">Action</th>
+      </tr>
+    </thead>
+    <% 
+    i = 1;
+    items.each do |item| %>
+    <tbody>
+        <tr>
+        <th class="text-center"><%= i %> </th>
+        <th class="text-center"><%= item.name %> </th>
+        <th class="text-center"><%= item.price %></th>
+        <th class="text-center"><%= item.category.name%></th>
+        <th class="text-center"><a class="btn btn-primary" href="/items/<%= item.id%>">Show</a></th>
+        <th class="text-center"><a class="btn btn-primary" href="/items/edit/<%= item.id%>">Edit</a></th>
+        <th class="text-center">
+          <form method="post" action ="/item/<%= item.id%>">
+          <input type="hidden" name="_method" value="delete" />
+          <button class="btn btn-danger" type ="submit">Delete</button>
+          </form>
+        </th>
+      </tr>     
+    </tbody>            
+    <% i +=1
+    end %>
+
+  </table>
+  <div><a class="btn btn-primary" href= "/item/new"> New item </a></div>
+
+  <div class="my-1"><a class="btn btn-primary" href= "/items"> Show All Item </a></div>
+
+  <div class="my-1"><a class="btn btn-primary" href= "/category"> Show All Categories </a></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOOD OMS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+<%= category%>
+<div class ="container">
+  <h1 class="text-center">Items List</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">No</th>
+        <th scope="col" class="text-center">Category</th>
+        <th scope="col" class="text-center">Items</th>
+      </tr>
+    </thead>
+    <% 
+    i = 1;
+    category.each do |data| %>
+    <tbody>
+        <tr>
+        <th class="text-center"><%= i %> </th>
+        <th class="text-center"><%= data.name %> </th>
+        <th class="text-center"><%= data.items %></th>
+      </tr>     
+    </tbody>            
+    <% i +=1
+    end %>
+
+  </table>
+  <div class="my-1"><a class="btn btn-primary" href= "/category"> back </a></div>
+</div>
+</body>
+</html>
