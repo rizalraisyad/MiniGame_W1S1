@@ -26,9 +26,9 @@ class Items
   def insert_item
     return false unless valid?
     client = create_db_client
-    client.query("INSERT INTO items (id,name,price) VALUES (#{@id},'#{@name}',#{@price})")
+    client.query("INSERT INTO items (name,price) VALUES ('#{@name}',#{@price})")
+    @id = client.last_id
   end
-  
   
   def update
     return false unless valid?
@@ -89,13 +89,7 @@ class Items
 
   def self.self_find_item(params)
     client = create_db_client
-    client.query("SELECT * FROM items where id = #{params["id"].to_i}")
-  end
-
-  def self.next_id
-    client = create_db_client
-    id = client.query("SELECT MAX(Id) FROM items").each
-    id[0]["MAX(Id)"] +=1
+    client.query("SELECT * FROM items where id = #{params["id"]}")
   end
 
   def self.get_items

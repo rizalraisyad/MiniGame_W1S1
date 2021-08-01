@@ -22,11 +22,10 @@ class Category
   def save
     return false unless valid?
     client = create_db_client
-    client.query("INSERT INTO categories (id,name) VALUES (#{@id},'#{@name}')")
+    client.query("INSERT INTO categories (name) VALUES ('#{@name}')")
   end
 
   def valid?
-    return false if @id.nil?
     return false if @name.nil?
     true
   end
@@ -34,12 +33,6 @@ class Category
   def delete
     client = create_db_client
     client.query("DELETE FROM categories WHERE id = #{@id}")
-  end
-
-  def self.next_id
-    client = create_db_client
-    id = client.query("SELECT MAX(Id) FROM categories").each
-    id[0]["MAX(Id)"] +=1
   end
 
   def self.get_all_categories
@@ -55,12 +48,7 @@ class Category
 
   def self.all_categories_with_items
     client = create_db_client
-    rawData = client.query("select group_concat(DISTINCT categories.id) as id , group_concat(DISTINCT categories.name) as category, group_concat(items.name) as items
-    from categories
-    join item_categories on categories.id = item_categories.category_id
-    join items on item_categories.item_id = items.id
-    group by categories.name
-    order by id")
+    rawData = client.query("select group_concat(DISTINCT categories.id) as id , group_concat(DISTINCT categories.name) as category, group_concat(items.name) as items from categories join item_categories on categories.id = item_categories.category_id join items on item_categories.item_id = items.id group by categories.name order by id")
     items = Array.new
     rawData.each do |data|
       category = Category.new(data["id"],data["category"],data["items"])

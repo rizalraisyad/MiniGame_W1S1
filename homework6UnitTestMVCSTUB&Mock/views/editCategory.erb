@@ -11,11 +11,11 @@
 <div class="container">
   <h1 class="text-center">Edit</h1>
 
-  <form method="post" action ="/category/<%= category[0]["id"]%> " >
+  <form method="post" action ="/category/<%= category["id"]%> " >
     <input type="hidden" name="_method" value="put" />
     <div class="mb-3">
       <label for="name" class="form-label">Category Name: </label>
-      <input name="name" class="form-control" type ="text" placeholder="Item name" value="<%= category[0]["name"]%>">
+      <input name="name" class="form-control" type ="text" placeholder="Item name" value="<%= category["name"]%>">
     </div>
     <button class="btn btn-primary" type ="submit">Update Category</button>
   </form>

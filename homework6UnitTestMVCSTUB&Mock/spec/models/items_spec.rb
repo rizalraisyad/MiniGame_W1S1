@@ -4,11 +4,43 @@ describe Items do
   describe "insert_item" do
     it "Should execute the queries" do
       items = Items.new(1,"Nasi Goreng",5000)
-      query = "INSERT INTO items (id,name,price) VALUES (#{items.id},'#{items.name}',#{items.price})"
+      query = "INSERT INTO items (name,price) VALUES ('#{items.name}',#{items.price})"
       client = double
+
       expect(client).to receive(:query).with(query)
       allow(Mysql2::Client).to receive(:new).and_return(client)
+      # expect(client).to receive(:query).with(query)
+      
+      new_item_id = 1
+      
+      expect(client).to receive(:last_id).and_return(new_item_id)
       items.insert_item
+      
+    end
+  end
+
+  describe "set_name" do
+    it "Should change name " do
+      item = Items.new(1, "Test", 5000)
+      item.set_name("hello")
+      expect(item.name).to eq("hello")
+    end
+  end
+
+  describe "set_price" do
+    it "Should change price " do
+      item = Items.new(1, "Test", 5000)
+      item.set_price(1000)
+      expect(item.price).to eq(1000)
+    end
+  end
+
+  describe "set_category" do
+    it "Should change category " do
+      item = Items.new(1, "Test", 5000, nil)
+      category = double()
+      item.set_category(category)
+      expect(item.category).to eq(category)
     end
   end
 
@@ -57,16 +89,23 @@ describe Items do
       join categories on item_categories.category_id = categories.id
       where items.id = #{items.id}
       "
+      category = double()
+      allow(Category).to receive(:new).and_return(category)
+      item = double()
+      allow(Items).to receive(:new).and_return(item)
       client = double
-      expect(client).to receive(:query).with(query).and_return([])
+      allow(client).to receive(:query).with(query).and_return([])
       allow(Mysql2::Client).to receive(:new).and_return(client)
       items.get_item_detail
+      
+      
     end
   end
 
   describe "update_category" do
     it "Should execute the queries" do
-      items = Items.new(1,"Nasi Goreng",5000)
+      category = double()
+      items = Items.new(1,"Nasi Goreng",5000,category)
       query = "select items.id as 'id', items.name as 'items_name', items.price, item_categories.category_id, categories.name as 'nama_category' from items
       join item_categories on items.id = item_categories.item_id
       join categories on item_categories.category_id = categories.id
@@ -76,19 +115,29 @@ describe Items do
       expect(client).to receive(:query).with(query).and_return([])
       allow(Mysql2::Client).to receive(:new).and_return(client)
       items.update_category
+
+      
+      allow(Category).to receive(:new).and_return(category)
+      expect(items.category).to eq(category)
     end
   end
 
-  # describe "self_find_item" do
-  #   it "Should execute the queries" do
-  #     id = 5
-  #     query = "SELECT * FROM items where id = #{id}"
-  #     client = double
-  #     expect(client).to receive(:query).with(query)
-  #     allow(Mysql2::Client).to receive(:new).and_return(client)
-  #     Items::self_find_item(5)
-  #   end
-  # end
+  describe "self_find_item" do
+    it "Should execute the queries" do
+      id = 5
+      query = "SELECT * FROM items where id = #{id}"
+      client = double
+      expect(client).to receive(:query).with(query).and_return([{
+        "id"=>5,
+        "name"=>"Makanan",
+        "price"=>5000,
+      }])
+      allow(Mysql2::Client).to receive(:new).and_return(client)
+      Items::self_find_item({
+        "id"=>5
+      })
+    end
+  end
 
   describe "get_items" do
     it "Should execute the queries" do

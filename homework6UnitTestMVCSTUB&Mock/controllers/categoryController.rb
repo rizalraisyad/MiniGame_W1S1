@@ -7,8 +7,7 @@ class CategoryController
   end
 
   def insert(params)
-    newId = Category.next_id
-    categories = Category.new(newId, params['name'])
+    categories = Category.new(nil, params['name'])
     categories.save
   end
 
@@ -26,19 +25,37 @@ class CategoryController
   end
 
   def edit(params)
-    category = Category.find_category(params['id']).each
+    categories = Category.find_category(params['id'])
+    category = nil
+    categories.each do |item|
+      category = {
+        "id" => item["id"],
+        "name" => item["name"]
+      }
+      break;
+    end
     renderer = ERB.new(File.read("./views/editCategory.erb"))
     renderer.result(binding)
   end
   
   def delete(params)
-    find_category = Category.find_category(params['id']).each
-    category = Category.new(find_category[0]["id"],find_category[0]["name"])
+    find_categories = Category.find_category(params['id'])
+    find_category = nil
+    find_categories.each do |item|
+      find_category = {
+        "id" => item["id"],
+        "name" => item["name"]
+      }
+      break;
+    end
+    category = Category.new(find_category["id"],find_category["name"])
+
     item_categories = Item_categories.find_all_items(params)
     item_categories.each do |item|
-      item_category = Item_categories.new(item['item_id'],find_category[0]["id"])
+      item_category = Item_categories.new(item['item_id'],find_category["id"])
       item_category.delete_categories
     end
+
     category.delete
   end
 
