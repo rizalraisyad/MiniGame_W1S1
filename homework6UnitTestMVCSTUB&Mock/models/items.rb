@@ -54,18 +54,11 @@ class Items
       join categories on item_categories.category_id = categories.id
       where items.id = #{@id}
       ")
+
     items = Array.new
     rawData.each do |data|
-      category = Category.new({
-        id: data["category_id"],
-        name: data["nama_category"]
-      })
-      item = Items.new({
-        id: id,
-        name:  data["items_name"],
-        price: data["price"],
-        category: category
-      })
+      category = Category.new(data["category_id"],data["nama_category"])
+      item = Items.new(@id,data["items_name"],data["price"],nil)
       items.push(item)
     end
     items

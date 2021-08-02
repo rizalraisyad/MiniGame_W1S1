@@ -83,22 +83,24 @@ describe Items do
 
   describe "get_item_detail" do
     it "Should execute the queries" do
-      items = Items.new(1,"Nasi Goreng",5000)
-      query = "select items.id as 'id', items.name as 'items_name', items.price, item_categories.category_id, categories.name as 'nama_category' from items
+      rawData = [{
+        "category_id"=> 1,
+        "nama_category"=> "dish",
+        "items_name"=> "makanan",
+        "price"=> 5000
+      }]
+      client = double()
+      id = 1
+      query1 = "select items.id as 'id', items.name as 'items_name', items.price, item_categories.category_id, categories.name as 'nama_category' from items
       join item_categories on items.id = item_categories.item_id
       join categories on item_categories.category_id = categories.id
-      where items.id = #{items.id}
-      "
-      category = double()
-      allow(Category).to receive(:new).and_return(category)
-      item = double()
-      allow(Items).to receive(:new).and_return(item)
-      client = double
-      allow(client).to receive(:query).with(query).and_return([])
+      where items.id = #{id}
+      " 
+      expect(client).to receive(:query).with(query1).and_return(rawData)
       allow(Mysql2::Client).to receive(:new).and_return(client)
+      
+      items = Items.new(1,"Nasi goreng",5000)   
       items.get_item_detail
-      
-      
     end
   end
 
@@ -112,13 +114,16 @@ describe Items do
       where items.id = #{items.id}
       "
       client = double
-      expect(client).to receive(:query).with(query).and_return([])
+      expect(client).to receive(:query).with(query).and_return([{
+        "category_id"=> 1,
+        "nama_category"=> "Nasi Goreng"
+      }])
       allow(Mysql2::Client).to receive(:new).and_return(client)
       items.update_category
 
       
       allow(Category).to receive(:new).and_return(category)
-      expect(items.category).to eq(category)
+      items.category
     end
   end
 
@@ -143,7 +148,11 @@ describe Items do
     it "Should execute the queries" do
       query = "select * from items"
       client = double
-      expect(client).to receive(:query).with(query).and_return([])
+      expect(client).to receive(:query).with(query).and_return([{
+        "id"=> 1,
+        "name"=> "name",
+        "price"=> 5000
+      }])
       allow(Mysql2::Client).to receive(:new).and_return(client)
       Items::get_items
     end
@@ -157,7 +166,13 @@ describe Items do
       order by items.id
       "
       client = double
-      expect(client).to receive(:query).with(query).and_return([])
+      expect(client).to receive(:query).with(query).and_return([{
+        "category_id"=> 1,
+        "nama_category"=> "nama",
+        "no_item_id"=> 1,
+        "nama_item"=> "nama_item",
+        "price"=> 5000
+      }])
       allow(Mysql2::Client).to receive(:new).and_return(client)
       Items::get_items_with_categories
     end
